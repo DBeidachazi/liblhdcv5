@@ -1,9 +1,18 @@
 # liblhdcv5
 
-Native Linux build wrapper for the AOSP LHDC v5 encoder.
+Linux build wrapper and packaging source for the AOSP LHDC v5 Bluetooth encoder.
 
-This package builds the Android 17 `system/audio/codecs/lhdcv5` source locally
-and installs a normal system library for desktop audio stacks:
+The `aosp/` directory contains the Android 17
+`system/audio/codecs/lhdcv5` source. The encoder implementation is Rust; the
+public C ABI is the AOSP `lhdcv5BT.h` wrapper. The Linux build links both into
+one shared library for desktop audio stacks.
+
+```sh
+make
+sudo make install
+```
+
+Installed interface:
 
 ```text
 /usr/lib/liblhdcv5.so
@@ -11,11 +20,6 @@ and installs a normal system library for desktop audio stacks:
 /usr/include/lhdcv5/lhdcv5_api.h
 /usr/lib/pkgconfig/lhdcv5.pc
 ```
-
-The encoder implementation is built from the AOSP Rust crate and linked with
-the AOSP C wrapper into one shared library. The public ABI is `lhdcv5BT.h`, so
-C consumers such as PipeWire can link it without knowing that the encoder
-internals are Rust.
 
 Source:
 
