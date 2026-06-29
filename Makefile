@@ -7,8 +7,11 @@ BUILD_DIR ?= build
 
 CARGO ?= cargo
 CC ?= cc
-CFLAGS ?= -Wall -Wextra -O2 -fPIC
+WARN_CFLAGS ?= -Wall -Wextra
+CFLAGS += -fPIC
 LDFLAGS ?=
+RUSTFLAGS ?=
+LHDC_RUSTFLAGS ?= -C relocation-model=pic -C target-feature=-fma
 
 .PHONY: all clean install
 
@@ -21,10 +24,10 @@ $(BUILD_DIR)/log/log.h: log.h | $(BUILD_DIR)
 	install -Dm644 $< $@
 
 aosp/target/release/liblhdcv5.a:
-	cd aosp && $(CARGO) build --release --locked --lib
+	cd aosp && RUSTFLAGS="$(RUSTFLAGS) $(LHDC_RUSTFLAGS)" $(CARGO) build --release --locked --lib
 
 $(BUILD_DIR)/liblhdcv5.so: aosp/target/release/liblhdcv5.a aosp/src/lhdcv5BT_enc.c $(BUILD_DIR)/log/log.h | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -shared \
+	$(CC) $(WARN_CFLAGS) $(CFLAGS) -shared \
 		-Iaosp/include \
 		-I$(BUILD_DIR) \
 		aosp/src/lhdcv5BT_enc.c \
