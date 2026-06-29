@@ -1,0 +1,26 @@
+pkgbase = liblhdcv5
+	pkgdesc = AOSP LHDC v5 Bluetooth encoder library for Linux
+	pkgver = 0.1.0
+	pkgrel = 1
+	url = https://github.com/DBeidachazi/liblhdcv5
+	arch = x86_64
+	license = Apache-2.0
+	makedepends = rust
+	makedepends = gcc
+	depends = glibc
+	depends = gcc-libs
+	options = !strip
+	source = lhdcv5-android-17.0.0_r1.tar.gz::https://android.googlesource.com/platform/packages/modules/Bluetooth/+archive/refs/tags/android-17.0.0_r1/system/audio/codecs/lhdcv5.tar.gz
+	source = Cargo.lock
+	source = LICENSE-APACHE
+	source = log.h
+	source = lhdcv5.pc.in
+	source = README.md
+	sha256sums = SKIP
+	sha256sums = 6c81d5bbb1ae9018409e0f7d44f7bb62e5a87b3330c9da48080463826dbdf81f
+	sha256sums = 074e6e32c86a4c0ef8b3ed25b721ca23aca83df277cd88106ef7177c354615ff
+	sha256sums = b7701c95e8e2e4f037709567c7c03d53de29ecf8a2a97d110cac65854df65e1c
+	sha256sums = 5f70672df8c6794d9c158bf708a6075d268116d5d45a59cedf648e174b3a0c35
+	sha256sums = 7a4794ce1462b167c9a60eb51f8350837b747712b234da3beddf25279fb42c78
+
+pkgname = liblhdcv5
