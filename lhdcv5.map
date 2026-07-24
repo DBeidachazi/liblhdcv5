@@ -1,0 +1,7 @@
+{
+  global:
+    lhdcv5BT_*;
+    lhdcv5_enc_ffi_*;
+  local:
+    *;
+};
