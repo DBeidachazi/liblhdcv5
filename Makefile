@@ -29,7 +29,7 @@ RUST_SOURCES := $(shell find aosp/src -type f -name '*.rs') aosp/Cargo.toml aosp
 LHDC_TARGET_RUSTFLAGS := $(if $(filter x86_64 i686,$(RUST_ARCH)),$(LHDC_X86_RUSTFLAGS))
 LHDC_LDFLAGS ?= -Wl,--gc-sections -Wl,--version-script=$(abspath $(EXPORT_MAP)) -Wl,-z,defs
 
-.PHONY: all clean install strip
+.PHONY: all clean install strip FORCE
 
 all: $(BUILD_DIR)/liblhdcv5.so $(BUILD_DIR)/lhdcv5.pc
 
@@ -54,8 +54,15 @@ $(BUILD_DIR)/liblhdcv5.so: $(RUST_STATICLIB) aosp/src/lhdcv5BT_enc.c $(BUILD_DIR
 		$(LDLIBS) \
 		-o $@
 
-$(BUILD_DIR)/lhdcv5.pc: lhdcv5.pc.in | $(BUILD_DIR)
-	sed "s/@PKGVER@/$(VERSION)/g" $< > $@
+# Regenerated every run so install-time PREFIX/LIBDIR/INCLUDEDIR are honored.
+$(BUILD_DIR)/lhdcv5.pc: lhdcv5.pc.in FORCE | $(BUILD_DIR)
+	sed -e "s|@PKGVER@|$(VERSION)|g" \
+		-e "s|@PREFIX@|$(PREFIX)|g" \
+		-e "s|@LIBDIR@|$(LIBDIR)|g" \
+		-e "s|@INCLUDEDIR@|$(INCLUDEDIR)|g" \
+		$< > $@
+
+FORCE:
 
 install: all
 	install -Dm755 $(BUILD_DIR)/liblhdcv5.so "$(DESTDIR)$(LIBDIR)/liblhdcv5.so"

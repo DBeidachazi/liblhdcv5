@@ -1,7 +1,6 @@
-prefix=/usr
-exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
-includedir=${prefix}/include
+prefix=@PREFIX@
+libdir=@LIBDIR@
+includedir=@INCLUDEDIR@
 
 Name: lhdcv5
 Description: AOSP LHDC v5 Bluetooth encoder library
